@@ -8,6 +8,10 @@ body {
     background-color: #f4f4f9;
 }
 
+.welcome-container {
+    text-align: center;
+}
+
 .quiz-container {
     width: 400px;
     text-align: center;
@@ -15,4 +19,45 @@ body {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#timer {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #e74c3c;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#answer-options {
+    margin-top: 20px;
+}
+
+#answer-options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#answer-options button:hover {
+    background-color: #27ae60;
 }

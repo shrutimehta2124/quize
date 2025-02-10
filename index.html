@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="quiz-container">
+    <div class="welcome-container" id="welcome-container">
+        <h1>Welcome to the Quiz!</h1>
+        <p>Test your knowledge with 20 exciting questions!</p>
+        <button id="start-quiz-button">Start Quiz</button>
+    </div>
+
+    <div class="quiz-container" id="quiz-container" style="display:none;">
         <div id="question-container">
             <h2 id="question">Question will appear here</h2>
             <div id="answer-options"></div>
@@ -16,7 +22,7 @@
         <button id="next-button" style="display:none;">Next Question</button>
         <div id="score"></div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
