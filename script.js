@@ -99,8 +99,7 @@ const questions = [
         "options": ["A) 4", "B) 22", "C) NaN", "D) TypeError"],
         "answer": "B) 22"
     }
-]
-
+];
 
 let currentQuestionIndex = 0;
 let score = 0;
