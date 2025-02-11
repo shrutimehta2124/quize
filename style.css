@@ -25,12 +25,14 @@ body::before {
 }*/
 body {
     font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    text-align: center;
+    background-color: #cccccc; 
+    position: relative;
 }
-
 h1 {
     font-size: 2em;
 }
@@ -82,4 +84,40 @@ button:hover {
 .correct-answer {
     color: green;
     font-weight: bold;
+}
+
+ul {
+    /*list-style-type: none;*/
+    padding-left: 0;
+}
+
+li {
+    margin: 5px;
+}
+
+li.correct {
+    color: green;
+}
+
+li.wrong {
+    color: red;
+}
+
+li.correct-answer {
+    color: green;
+}
+
+li.selected {
+    font-weight: bold;
+}
+
+li.skipped {
+    color: orange;
+}
+
+li {
+    display: block;
+    padding: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
 }

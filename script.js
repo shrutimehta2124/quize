@@ -134,40 +134,60 @@ document.getElementById("view-score-button").onclick = function () {
 };
 
 // Show Response Page
+// Show Response Page
+// Show Response Page
 document.getElementById("view-response-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("response-container").style.display = "block";
 
-    const responseList = document.getElementById("response-list");
-    responseList.innerHTML = '';
+    const resultList = document.getElementById("response-list");
+    resultList.innerHTML = ""; // Clear previous responses
 
     userResponses.forEach(response => {
-        const div = document.createElement("div");
-        div.classList.add("response-item");
+        const li = document.createElement("li");
 
-        let icon = '';
-        if (response.status === "correct") {
-            icon = "✅";
-        } else if (response.status === "wrong") {
-            icon = "❌";
-        } else if (response.status === "skipped") {
-            icon = "⏳";
+        // Question text
+        li.innerHTML = `<strong>${response.question}</strong><br>`;
+
+        // Iterate over all options for this question
+        response.options.forEach(option => {
+            let span = document.createElement("span");
+            span.textContent = option;
+            span.classList.add("option");
+
+            // Create an icon based on answer status (correct, wrong, or skipped)
+            let icon = document.createElement("span");
+
+            // If the user selected this option
+            if (option === response.selected) {
+                span.classList.add(option === response.correct ? "correct" : "incorrect");
+                icon.innerHTML = option === response.correct ? "✅" : "❌";
+            }
+
+            // If the option is the correct answer (and not selected)
+            if (option === response.correct) {
+                span.classList.add("correct-answer");
+                // If the user did not select the correct answer, show the correct icon
+                if (response.selected !== response.correct) {
+                    icon.innerHTML = "✅";
+                }
+            }
+
+            li.appendChild(span);
+            li.appendChild(icon);
+            li.appendChild(document.createElement("br"));
+        });
+
+        // If the question was skipped, show the skipped icon
+        if (response.selected === "Skipped") {
+            li.innerHTML += `<span class="skipped">⚠️ Skipped</span>`;
         }
 
-        div.innerHTML = `
-            <h3>${response.question}</h3>
-            <ul>
-                ${response.options.map(option => `
-                    <li class="${option === response.selected ? (response.status === 'correct' ? 'correct' : 'wrong') : ''} ${option === response.correct ? 'correct-answer' : ''}">
-                        ${option} ${option === response.selected ? icon : ""}
-                    </li>
-                `).join('')}
-            </ul>
-        `;
-
-        responseList.appendChild(div);
+        // Append the current question's result to the result list
+        resultList.appendChild(li);
     });
 };
+
 
 // Back to Submit Page (From Score & Response)
 document.getElementById("back-to-submit-from-score").onclick = function () {
