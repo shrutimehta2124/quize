@@ -1,0 +1,77 @@
+@media (max-width: 768px) {
+    .welcome-container, .quiz-container, #submit-container, #score-container, #response-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .welcome-container h1 {
+        font-size: 28px;
+    }
+
+    #question {
+        font-size: 20px;
+    }
+
+    #answer-options button {
+        font-size: 16px;
+    }
+
+    #submit-container h2 {
+        font-size: 24px;
+    }
+
+    #score-container h2 {
+        font-size: 24px;
+    }
+
+    #response-container h2 {
+        font-size: 24px;
+    }
+
+    #timer {
+        font-size: 16px;
+    }
+
+    #submit-container button, #score-container button, #response-container button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+}
+@media (max-width: 480px) {
+    .welcome-container h1 {
+        font-size: 24px;
+    }
+
+    .welcome-container p {
+        font-size: 16px;
+    }
+
+    #question {
+        font-size: 18px;
+    }
+
+    #answer-options button {
+        font-size: 14px;
+    }
+
+    #timer {
+        font-size: 14px;
+    }
+
+    #submit-container h2 {
+        font-size: 22px;
+    }
+
+    #score-container h2 {
+        font-size: 22px;
+    }
+
+    #response-container h2 {
+        font-size: 22px;
+    }
+
+    #submit-container button, #score-container button, #response-container button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}

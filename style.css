@@ -23,101 +23,190 @@ body::before {
     opacity: 0.2;
     z-index: -1;
 }*/
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-    background-color: #cccccc; 
-    position: relative;
-}
-h1 {
-    font-size: 2em;
+    color: #333;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
+/* Welcome Page */
+.welcome-container {
     text-align: center;
-    font-size: 16px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    box-sizing: border-box;
+}
+
+.welcome-container h1 {
+    font-size: 36px;
+    color: #2c3e50;
+}
+
+.welcome-container p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+#welcome-container button {
+    background-color: #3498db;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    margin: 10px;
-    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #45a049;
+#welcome-container button:hover {
+    background-color: #2980b9;
 }
 
-.welcome-container,
-.quiz-container,
-.submit-container,
-.score-container,
-.response-container {
-    margin-top: 20px;
+/* Quiz Container */
+.quiz-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    box-sizing: border-box;
+}
+
+#question-container {
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#answer-options {
+    margin-bottom: 20px;
+}
+
+#answer-options button {
+    background-color: #2ecc71;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    margin: 10px 0;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#answer-options button:hover {
+    background-color: #27ae60;
 }
 
 #timer {
     font-size: 18px;
-    margin-top: 10px;
+    margin: 10px 0;
+    color: #e74c3c;
 }
 
-.response-item {
+/* Submit Page */
+#submit-container {
+    text-align: center;
+}
+
+#submit-container h2 {
+    font-size: 30px;
+    color: #2c3e50;
     margin-bottom: 20px;
+}
+
+#submit-container button {
+    background-color: #3498db;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submit-container button:hover {
+    background-color: #2980b9;
+}
+
+/* Score Page */
+#score-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    box-sizing: border-box;
+}
+
+#score-container h2 {
+    font-size: 30px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+#score-container p {
+    font-size: 24px;
+    color: #3498db;
+}
+
+/* Response Page */
+#response-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    box-sizing: border-box;
+}
+
+#response-container h2 {
+    font-size: 30px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+#response-list {
     text-align: left;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ecf0f1;
+    border-radius: 4px;
 }
 
-.correct {
-    color: green;
-    font-weight: bold;
-}
-
-.wrong {
-    color: red;
-    font-weight: bold;
-}
-
-.correct-answer {
-    color: green;
-    font-weight: bold;
-}
-
-ul {
-    /*list-style-type: none;*/
-    padding-left: 0;
-}
-
-li {
-    margin: 5px;
-}
-
-li.correct {
-    color: green;
-}
-
-li.wrong {
-    color: red;
-}
-
-li.correct-answer {
-    color: green;
-}
-
-li.selected {
-    font-weight: bold;
-}
-
-li.skipped {
-    color: orange;
-}
-
-li {
-    display: block;
+#response-list div {
     padding: 5px;
-    border: 1px solid #ddd;
-    margin-top: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+#response-list div:last-child {
+    border-bottom: none;
+}
+
+button {
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
 }
