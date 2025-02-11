@@ -1,4 +1,4 @@
-const questions = [
+const questions =[
     {
         "question": "What does HTML stand for?",
         "options": ["A) Hyper Transfer Markup Language", "B) Hyper Text Markup Language", "C) High Text Machine Language", "D) Hyperlink and Text Markup Language"],
@@ -218,60 +218,51 @@ document.getElementById("view-score-button").onclick = function () {
     document.getElementById("score-container").style.display = "block";
     document.getElementById("score").textContent = `Your Score: ${score} / ${questions.length}`;
 };
-
-// Show Response Page
-// Show Response Page
-// Show Response Page
+//show responsie 
 document.getElementById("view-response-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("response-container").style.display = "block";
-
+    
+    console.log(userResponses);
+    
     const resultList = document.getElementById("response-list");
     resultList.innerHTML = ""; // Clear previous responses
-
+    
     userResponses.forEach(response => {
         const li = document.createElement("li");
-
-        // Question text
+    
+        // Add the question text and options for each response
         li.innerHTML = `<strong>${response.question}</strong><br>`;
-
-        // Iterate over all options for this question
         response.options.forEach(option => {
             let span = document.createElement("span");
             span.textContent = option;
             span.classList.add("option");
-
-            // Create an icon based on answer status (correct, wrong, or skipped)
+    
             let icon = document.createElement("span");
-
-            // If the user selected this option
+    
             if (option === response.selected) {
                 span.classList.add(option === response.correct ? "correct" : "incorrect");
                 icon.innerHTML = option === response.correct ? "✅" : "❌";
             }
-
-            // If the option is the correct answer (and not selected)
+    
             if (option === response.correct) {
                 span.classList.add("correct-answer");
-                // If the user did not select the correct answer, show the correct icon
                 if (response.selected !== response.correct) {
                     icon.innerHTML = "✅";
                 }
             }
-
             li.appendChild(span);
             li.appendChild(icon);
             li.appendChild(document.createElement("br"));
         });
-
-        // If the question was skipped, show the skipped icon
+    
         if (response.selected === "Skipped") {
             li.innerHTML += `<span class="skipped">⚠️ Skipped</span>`;
         }
-
-        // Append the current question's result to the result list
+    
         resultList.appendChild(li);
     });
+    
 };
 
 
