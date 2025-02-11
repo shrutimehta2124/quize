@@ -216,7 +216,15 @@ function showSubmitPage() {
 document.getElementById("view-score-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("score-container").style.display = "block";
-    document.getElementById("score").textContent = `Your Score: ${score} / ${questions.length}`;
+   
+    const totalQuestions = questions.length;
+    const attemptedQuestions = totalQuestions - skipped;
+
+    document.getElementById("score").innerHTML =
+    `<p>Your Score: ${score} / ${totalQuestions}</p>
+        <p>Questions Attempted: ${attemptedQuestions}</p>
+        <p>Questions Skipped: ${skipped}</p>
+    `;
 };
 //show responsie 
 document.getElementById("view-response-button").onclick = function () {
@@ -282,3 +290,4 @@ document.getElementById("restart-quiz-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("welcome-container").style.display = "block";
 };
+
