@@ -25,73 +25,48 @@ body::before {
 }*/
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
-    background-color: #f4f4f9;
-}
-
-.welcome-container {
+    padding: 0;
+    background-color: #f4f4f4;
     text-align: center;
 }
 
-.quiz-container {
-    width: 400px;
-    text-align: center;
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#timer {
-    margin-top: 20px;
-    font-size: 20px;
-    color: #e74c3c;
+h1 {
+    font-size: 2em;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #3498db;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 10px 20px;
+    text-align: center;
     font-size: 16px;
-    margin-top: 20px;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: #45a049;
 }
 
-#answer-options {
+.welcome-container,
+.quiz-container,
+.submit-container,
+.score-container,
+.response-container {
     margin-top: 20px;
 }
 
-#answer-options button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+#timer {
+    font-size: 18px;
+    margin-top: 10px;
 }
 
-#answer-options button:hover {
-    background-color: #27ae60;
-}
-.option {
-    display: inline-block;
-    padding: 5px;
-    margin: 2px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.response-item {
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .correct {
@@ -99,7 +74,7 @@ button:hover {
     font-weight: bold;
 }
 
-.incorrect {
+.wrong {
     color: red;
     font-weight: bold;
 }
@@ -107,11 +82,4 @@ button:hover {
 .correct-answer {
     color: green;
     font-weight: bold;
-    text-decoration: underline;
 }
-
-.skipped {
-    color: orange;
-    font-weight: bold;
-}
-
