@@ -86,3 +86,12 @@ button:hover {
 #answer-options button:hover {
     background-color: #27ae60;
 }
+.correct {
+    color: green;
+    font-weight: bold;
+}
+
+.incorrect {
+    color: red;
+    font-weight: bold;
+}

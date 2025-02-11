@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Welcome Screen -->
     <div class="welcome-container" id="welcome-container">
         <h1>Welcome to the Quiz!</h1>
-        <p>Test your knowledge with 20 exciting questions!</p>
+        <p>Test your knowledge with exciting questions!</p>
         <button id="start-quiz-button">Start Quiz</button>
     </div>
 
+    <!-- Quiz Container -->
     <div class="quiz-container" id="quiz-container" style="display:none;">
         <div id="question-container">
             <h2 id="question">Question will appear here</h2>
@@ -20,7 +22,15 @@
         </div>
         <div id="timer">Time remaining: <span id="timer-seconds">10</span> seconds</div>
         <button id="next-button" style="display:none;">Next Question</button>
-        <div id="score"></div>
+        <button id="submit-button" style="display:none;">Submit Quiz</button>
+    </div>
+
+    <!-- Results Container -->
+    <div id="results-container" style="display:none;">
+        <h2>Quiz Results</h2>
+        <ul id="result-list"></ul>
+        <p id="final-score"></p>
+        <p id="skipped-count"></p>
     </div>
 
     <script src="script.js"></script>
