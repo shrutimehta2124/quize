@@ -1,4 +1,4 @@
-const questions =[
+const questions = [
     {
         "question": "What does HTML stand for?",
         "options": ["A) Hyper Transfer Markup Language", "B) Hyper Text Markup Language", "C) High Text Machine Language", "D) Hyperlink and Text Markup Language"],
@@ -122,52 +122,6 @@ function startQuiz() {
 }
 
 // Load Question
-/*
-function loadQuestion() {
-    const currentQuestion = questions[currentQuestionIndex];
-    document.getElementById("question").textContent = currentQuestion.question;
-    const answerOptions = document.getElementById("answer-options");
-    answerOptions.innerHTML = '';
-
-    currentQuestion.options.forEach(option => {
-        const button = document.createElement("button");
-        button.textContent = option;
-        button.onclick = () => handleAnswer(option);
-        answerOptions.appendChild(button);
-    });
-
-    document.getElementById("next-button").style.display = "none";
-    document.getElementById("next-button").disabled = true;
-    document.getElementById("submit-button").style.display = "none";
-
-    document.getElementById("timer-seconds").textContent = timeRemaining;
-    startTimer();
-}*/
-/*
-function loadQuestion() {
-    // Reset and display timer before showing the question
-    document.getElementById("timer-seconds").textContent = timeRemaining;
-    startTimer(); // Start the countdown
-
-    // Load question
-    const currentQuestion = questions[currentQuestionIndex];
-    document.getElementById("question").textContent = currentQuestion.question;
-
-    // Display answer options
-    const answerOptions = document.getElementById("answer-options");
-    answerOptions.innerHTML = '';
-
-    currentQuestion.options.forEach(option => {
-        const button = document.createElement("button");
-        button.textContent = option;
-        button.onclick = () => handleAnswer(option);
-        answerOptions.appendChild(button);
-    });
-
-    document.getElementById("next-button").style.display = "none";
-    document.getElementById("next-button").disabled = true;
-    document.getElementById("submit-button").style.display = "none";
-}*/
 function loadQuestion() {
     // Update the current question number
     document.getElementById("current-question-number").textContent = currentQuestionIndex + 1;
@@ -201,7 +155,6 @@ function loadQuestion() {
     document.getElementById("submit-button").style.display = "none";
 }
 
-
 // Start Timer
 function startTimer() {
     timeRemaining = 10;
@@ -211,7 +164,8 @@ function startTimer() {
 
         if (timeRemaining <= 0) {
             clearInterval(timer);
-            handleSkip();
+            handleSkip(); // Call handleSkip when time is up
+            moveToNextQuestion(); // Automatically move to next question after time is over
         }
     }, 1000);
 }
@@ -238,7 +192,7 @@ function handleAnswer(selectedOption) {
     }
 }
 
-// Handle Skip
+// Handle Skip (when time is over)
 function handleSkip() {
     skipped++;
     document.getElementById("next-button").style.display = "inline-block";
@@ -253,8 +207,8 @@ function handleSkip() {
     });
 }
 
-// Move to Next Question
-document.getElementById("next-button").onclick = function () {
+// Move to Next Question (automatically called when time is up or next button is clicked)
+function moveToNextQuestion() {
     currentQuestionIndex++;
 
     if (currentQuestionIndex < questions.length) {
@@ -262,8 +216,12 @@ document.getElementById("next-button").onclick = function () {
     } else {
         showSubmitPage();
     }
-};
+}
 
+// Move to Submit Page
+document.getElementById("next-button").onclick = function () {
+    moveToNextQuestion();
+};
 
 // Show Submit Page
 function showSubmitPage() {
@@ -285,7 +243,8 @@ document.getElementById("view-score-button").onclick = function () {
         <p>Questions Skipped: ${skipped}</p>
     `;
 };
-//show responsie 
+
+// Show Responses
 document.getElementById("view-response-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("response-container").style.display = "block";
@@ -329,9 +288,7 @@ document.getElementById("view-response-button").onclick = function () {
     
         resultList.appendChild(li);
     });
-    
 };
-
 
 // Back to Submit Page (From Score & Response)
 document.getElementById("back-to-submit-from-score").onclick = function () {
@@ -349,4 +306,3 @@ document.getElementById("restart-quiz-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("welcome-container").style.display = "block";
 };
-
