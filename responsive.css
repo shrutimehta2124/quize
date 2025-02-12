@@ -1,78 +1,58 @@
 @media (max-width: 768px) {
-    .welcome-container, .quiz-container, #submit-container, #score-container, #response-container {
-        width: 100%;
-        padding: 20px;
+    body {
+        padding: 10px; /* Less padding on smaller screens */
     }
 
-    .welcome-container h1 {
-        font-size: 28px;
+    .quiz-container {
+        width: 90%;
+    }
+
+    .welcome-container {
+        font-size: 1.2rem;
+        width: 90%;
     }
 
     #question {
-        font-size: 20px;
+        font-size: 1.6rem;
     }
 
     #answer-options button {
-        font-size: 16px;
+        font-size: 1.1rem;
     }
 
-    #submit-container h2 {
-        font-size: 24px;
+    #next-button, #submit-button {
+        font-size: 1.2rem;
     }
 
-    #score-container h2 {
-        font-size: 24px;
+    #response-container {
+        max-width: 90%; /* Increase container width for small screens */
     }
 
-    #response-container h2 {
-        font-size: 24px;
+    #response-list li {
+        padding: 12px;
     }
 
-    #timer {
-        font-size: 16px;
-    }
-
-    #submit-container button, #score-container button, #response-container button {
-        font-size: 16px;
-        padding: 8px 16px;
+    #score-container p {
+        font-size: 1.2rem;
     }
 }
 
 @media (max-width: 480px) {
-    .welcome-container h1 {
-        font-size: 24px;
-    }
-
-    .welcome-container p {
-        font-size: 16px;
+    #timer {
+        font-size: 1.8rem; /* Smaller timer for mobile */
     }
 
     #question {
-        font-size: 18px;
+        font-size: 1.4rem; /* Smaller question font */
     }
 
     #answer-options button {
-        font-size: 14px;
+        font-size: 1rem;
+        padding: 12px; /* Adjust button padding */
     }
 
-    #timer {
-        font-size: 14px;
-    }
-
-    #submit-container h2 {
-        font-size: 22px;
-    }
-
-    #score-container h2 {
-        font-size: 22px;
-    }
-
-    #response-container h2 {
-        font-size: 22px;
-    }
-
-    #submit-container button, #score-container button, #response-container button {
-        font-size: 14px;
-        padding: 6px 12px;
+    #next-button, #submit-button {
+        font-size: 1.1rem;
+        padding: 12px; /* Adjust padding for smaller buttons */
     }
 }
