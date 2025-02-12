@@ -122,6 +122,7 @@ function startQuiz() {
 }
 
 // Load Question
+/*
 function loadQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
     document.getElementById("question").textContent = currentQuestion.question;
@@ -141,7 +142,65 @@ function loadQuestion() {
 
     document.getElementById("timer-seconds").textContent = timeRemaining;
     startTimer();
+}*/
+/*
+function loadQuestion() {
+    // Reset and display timer before showing the question
+    document.getElementById("timer-seconds").textContent = timeRemaining;
+    startTimer(); // Start the countdown
+
+    // Load question
+    const currentQuestion = questions[currentQuestionIndex];
+    document.getElementById("question").textContent = currentQuestion.question;
+
+    // Display answer options
+    const answerOptions = document.getElementById("answer-options");
+    answerOptions.innerHTML = '';
+
+    currentQuestion.options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.onclick = () => handleAnswer(option);
+        answerOptions.appendChild(button);
+    });
+
+    document.getElementById("next-button").style.display = "none";
+    document.getElementById("next-button").disabled = true;
+    document.getElementById("submit-button").style.display = "none";
+}*/
+function loadQuestion() {
+    // Update the current question number
+    document.getElementById("current-question-number").textContent = currentQuestionIndex + 1;
+
+    // Update the total questions count (this is fixed, so we can just update once)
+    if (currentQuestionIndex === 0) {
+        document.getElementById("total-questions-number").textContent = questions.length;
+    }
+
+    // Reset and display timer before showing the question
+    document.getElementById("timer-seconds").textContent = timeRemaining;
+    startTimer(); // Start the countdown
+
+    // Load question
+    const currentQuestion = questions[currentQuestionIndex];
+    document.getElementById("question").textContent = currentQuestion.question;
+
+    // Display answer options
+    const answerOptions = document.getElementById("answer-options");
+    answerOptions.innerHTML = '';
+
+    currentQuestion.options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.onclick = () => handleAnswer(option);
+        answerOptions.appendChild(button);
+    });
+
+    document.getElementById("next-button").style.display = "none";
+    document.getElementById("next-button").disabled = true;
+    document.getElementById("submit-button").style.display = "none";
 }
+
 
 // Start Timer
 function startTimer() {
