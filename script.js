@@ -107,39 +107,102 @@ let skipped = 0;
 let timer;
 let timeRemaining = 10;
 let userResponses = [];
+let questionTimers = {}; // Store remaining time per question
+let stream; // To hold the camera stream
 
+// Fisher-Yates Shuffle Algorithm
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+// Function to start the camera
+function startCamera() {
+    navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((userStream) => {
+            document.querySelector("#videoElement").srcObject = userStream;
+            stream = userStream; // Save the stream to stop later
+
+            document.querySelector("#start").style.display = "none"; // Hide the button after starting
+            document.querySelector("#start-quiz-button").disabled = false; // Enable Start Quiz button
+        })
+        .catch((error) => {
+            console.error("Camera access denied:", error);
+            document.querySelector("#message").innerText =
+                "Camera access denied. Please enable it in your browser settings.";
+        });
+}
+
+
+// Function to stop the camera
+function stopCamera() {
+    if (stream) {
+        let tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop()); // Stop all tracks (video)
+        document.querySelector("#videoElement").srcObject = null; // Remove the video stream
+    }
+    document.querySelector("#start-quiz-button").disabled = true; // Disable Start Quiz button when camera stops
+}
+
+// Toggle start/stop on button click
+document.querySelector("#start").addEventListener("click", () => {
+    const buttonText = document.querySelector("#start").innerText;
+    if (buttonText === "Start Camera") {
+        startCamera(); // Start the camera
+    } else {
+        stopCamera(); // Stop the camera
+    }
+});
+// Ensure quiz doesn't start until camera is started
+document.getElementById("start-quiz-button").onclick = function() {
+    if (stream) {
+        startQuiz(); // Proceed with quiz if camera is active
+    } else {
+        alert("Please start the camera before starting the quiz!");
+    }
+};
 // Start Quiz
 document.getElementById("start-quiz-button").onclick = startQuiz;
 
 function startQuiz() {
+    if (!stream) {
+        alert("Please start the camera before starting the quiz!");
+        return;
+    }
+
     document.getElementById("welcome-container").style.display = "none";
     document.getElementById("quiz-container").style.display = "block";
     currentQuestionIndex = 0;
     score = 0;
     skipped = 0;
     userResponses = [];
+    questionTimers = {}; // Reset question timers
+
+    // Shuffle questions every time the quiz starts
+    shuffleArray(questions);
+
+    setupSidebar();
     loadQuestion();
 }
-
 // Load Question
 function loadQuestion() {
-    // Update the current question number
     document.getElementById("current-question-number").textContent = currentQuestionIndex + 1;
+    document.getElementById("total-questions-number").textContent = questions.length;
 
-    // Update the total questions count (this is fixed, so we can just update once)
-    if (currentQuestionIndex === 0) {
-        document.getElementById("total-questions-number").textContent = questions.length;
+    if (questionTimers[currentQuestionIndex] === undefined) {
+        questionTimers[currentQuestionIndex] = 10; // Default 10 seconds if first attempt
     }
-
-    // Reset and display timer before showing the question
+    timeRemaining = questionTimers[currentQuestionIndex];
     document.getElementById("timer-seconds").textContent = timeRemaining;
-    startTimer(); // Start the countdown
 
-    // Load question
+    startTimer();
+
     const currentQuestion = questions[currentQuestionIndex];
     document.getElementById("question").textContent = currentQuestion.question;
 
-    // Display answer options
     const answerOptions = document.getElementById("answer-options");
     answerOptions.innerHTML = '';
 
@@ -153,139 +216,206 @@ function loadQuestion() {
     document.getElementById("next-button").style.display = "none";
     document.getElementById("next-button").disabled = true;
     document.getElementById("submit-button").style.display = "none";
+
+    updateSidebar();
 }
 
 // Start Timer
 function startTimer() {
-    timeRemaining = 10;
+    clearInterval(timer);
     timer = setInterval(() => {
-        timeRemaining--;
-        document.getElementById("timer-seconds").textContent = timeRemaining;
-
-        if (timeRemaining <= 0) {
+        if (timeRemaining > 0) {
+            timeRemaining--;
+            questionTimers[currentQuestionIndex] = timeRemaining;
+            document.getElementById("timer-seconds").textContent = timeRemaining;
+        } else {
             clearInterval(timer);
-            handleSkip(); // Call handleSkip when time is up
-            moveToNextQuestion(); // Automatically move to next question after time is over
+            handleSkip();
+            moveToNextQuestion();
         }
     }, 1000);
 }
 
 // Handle Answer Selection
 function handleAnswer(selectedOption) {
+    if (timeRemaining <= 0) {
+        alert("Time is up! You cannot change the answer.");
+        return;
+    }
+
     clearInterval(timer);
+
+    const options = document.querySelectorAll('#answer-options button');
+    options.forEach(option => option.style.backgroundColor = '');
+
+    const selectedButton = Array.from(options).find(option => option.textContent === selectedOption);
+    selectedButton.style.backgroundColor = '#708090';
+
     document.getElementById("next-button").style.display = "inline-block";
     document.getElementById("next-button").disabled = false;
 
     const correctAnswer = questions[currentQuestionIndex].answer;
     const isCorrect = selectedOption === correctAnswer;
 
-    userResponses.push({
+    userResponses[currentQuestionIndex] = {
         question: questions[currentQuestionIndex].question,
-        options: questions[currentQuestionIndex].options,
         selected: selectedOption,
         correct: correctAnswer,
         status: isCorrect ? "correct" : "wrong"
-    });
+    };
 
     if (isCorrect) {
         score++;
     }
+
+    updateSidebar();
 }
 
-// Handle Skip (when time is over)
+// Handle Skip
 function handleSkip() {
     skipped++;
-    document.getElementById("next-button").style.display = "inline-block";
-    document.getElementById("next-button").disabled = false;
 
-    userResponses.push({
+    userResponses[currentQuestionIndex] = {
         question: questions[currentQuestionIndex].question,
-        options: questions[currentQuestionIndex].options,
         selected: "Skipped",
         correct: questions[currentQuestionIndex].answer,
         status: "skipped"
-    });
+    };
+
+    updateSidebar();
 }
 
-// Move to Next Question (automatically called when time is up or next button is clicked)
+// Move to Next Question
 function moveToNextQuestion() {
     currentQuestionIndex++;
 
     if (currentQuestionIndex < questions.length) {
         loadQuestion();
     } else {
-        showSubmitPage();
+        document.getElementById("next-button").textContent = 'Submit Quiz';
     }
 }
 
-// Move to Submit Page
+// Submit Quiz
 document.getElementById("next-button").onclick = function () {
-    moveToNextQuestion();
+    if (currentQuestionIndex === questions.length) {
+        showSubmitPage();
+    } else {
+        moveToNextQuestion();
+    }
 };
 
-// Show Submit Page
-function showSubmitPage() {
-    document.getElementById("quiz-container").style.display = "none";
-    document.getElementById("submit-container").style.display = "block";
+
+// Setup Sidebar
+function setupSidebar() {
+    const sidebar = document.getElementById("question-list");
+    sidebar.innerHTML = '';
+
+    questions.forEach((_, index) => {
+        const li = document.createElement("li");
+        li.textContent = `Question ${index + 1}`;
+        li.setAttribute("data-index", index);
+        li.classList.add("sidebar-item");
+
+        li.onclick = function () {
+            if (questionTimers[index] > 0) {
+                currentQuestionIndex = index;
+                loadQuestion();
+            } else {
+                alert("Time for this question has expired. You cannot change your answer.");
+            }
+        };
+
+        sidebar.appendChild(li);
+    });
+
+    updateSidebar();
+}
+
+// Update Sidebar
+function updateSidebar() {
+    document.querySelectorAll(".sidebar-item").forEach((item, index) => {
+        item.className = "sidebar-item";
+
+        if (index === currentQuestionIndex) {
+            item.classList.add("current-question");
+        } else if (userResponses[index]?.status === "correct" || userResponses[index]?.status === "wrong") {
+            item.classList.add("attempted-question");
+        } else if (userResponses[index]?.status === "skipped") {
+            item.classList.add("skipped-question");
+        }
+    });
 }
 
 // Show Score Page
 document.getElementById("view-score-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("score-container").style.display = "block";
-   
+
     const totalQuestions = questions.length;
     const attemptedQuestions = totalQuestions - skipped;
 
-    document.getElementById("score").innerHTML =
-    `<p>Your Score: ${score} / ${totalQuestions}</p>
+    document.getElementById("score").innerHTML = `
+        <p>Your Score: ${score} / ${totalQuestions}</p>
         <p>Questions Attempted: ${attemptedQuestions}</p>
         <p>Questions Skipped: ${skipped}</p>
     `;
 };
 
+function showSubmitPage() {
+    stopCamera(); // Stop the camera when the quiz is submitted
+
+    document.getElementById("video-container").style.display = "none"; // Hide camera
+    document.getElementById("quiz-container").style.display = "none";
+    document.getElementById("submit-container").style.display = "block";
+    
+    document.querySelector("#start").style.display = "none"; // Ensure start camera button stays hidden
+}
 // Show Responses
 document.getElementById("view-response-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("response-container").style.display = "block";
     
-    console.log(userResponses);
-    
     const resultList = document.getElementById("response-list");
     resultList.innerHTML = ""; // Clear previous responses
     
-    userResponses.forEach(response => {
+    userResponses.forEach((response, index) => {
         const li = document.createElement("li");
-    
-        // Add the question text and options for each response
-        li.innerHTML = `<strong>${response.question}</strong><br>`;
-        response.options.forEach(option => {
-            let span = document.createElement("span");
-            span.textContent = option;
-            span.classList.add("option");
-    
-            let icon = document.createElement("span");
-    
-            if (option === response.selected) {
-                span.classList.add(option === response.correct ? "correct" : "incorrect");
-                icon.innerHTML = option === response.correct ? "✅" : "❌";
-            }
-    
-            if (option === response.correct) {
-                span.classList.add("correct-answer");
-                if (response.selected !== response.correct) {
-                    icon.innerHTML = "✅";
+        li.innerHTML = `<strong>Question ${index + 1}: ${response.question}</strong><br>`;
+
+        // Ensure 'options' are available
+        if (questions[index] && questions[index].options) {
+            questions[index].options.forEach(option => {
+                let span = document.createElement("span");
+                span.textContent = option;
+                span.classList.add("option");
+
+                let icon = document.createElement("span");
+
+                if (option === response.selected) {
+                    span.classList.add(option === response.correct ? "correct" : "incorrect");
+                    icon.innerHTML = option === response.correct ? "✅" : "❌";
                 }
-            }
-            li.appendChild(span);
-            li.appendChild(icon);
-            li.appendChild(document.createElement("br"));
-        });
-    
+
+                if (option === response.correct) {
+                    span.classList.add("correct-answer");
+                    if (response.selected !== response.correct) {
+                        icon.innerHTML = "✅";
+                    }
+                }
+
+                li.appendChild(span);
+                li.appendChild(icon);
+                li.appendChild(document.createElement("br"));
+            });
+        } else {
+            li.innerHTML += "<p style='color: red;'>Error: No options available.</p>";
+        }
+
         if (response.selected === "Skipped") {
             li.innerHTML += `<span class="skipped">⚠️ Skipped</span>`;
         }
-    
+
         resultList.appendChild(li);
     });
 };
@@ -305,4 +435,6 @@ document.getElementById("back-to-submit-from-response").onclick = function () {
 document.getElementById("restart-quiz-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("welcome-container").style.display = "block";
+
+    document.querySelector("#start").style.display = "block"; // Show the start button again on restart
 };
