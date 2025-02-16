@@ -16,7 +16,13 @@
         <p>Test your HTML, CSS, and JavaScript knowledge with exciting and challenging questions!</p>
         <p style="font-size: 1.2rem; margin-bottom: 10px;"><strong>Total Questions:</strong> 20</p>
         <p style="font-size: 1.2rem; margin-bottom: 20px;"><strong>Time per Question:</strong> 10 seconds</p>
-        <button id="start-quiz-button">Start Quiz</button>
+        <p style="font-size: 1.2rem; margin-bottom: 20px;"><strong>The camera must be started to attempt the quiz.</strong></p>
+    
+        <!-- Wrap buttons in a div to use Flexbox -->
+        <div class="button-container">
+            <button id="start-quiz-button">Start Quiz</button>
+            <button id="start">Start Camera</button>
+        </div>
     </div>
     
     <!-- Video container section -->
@@ -28,9 +34,9 @@
         <div id="video-container">
             <video id="videoElement" width="320" height="240" autoplay></video>
             <p id="message"></p>
-            <button id="start">Start Camera</button>
         </div>
     </div>
+    
     
 
     <!-- Quiz Container -->
