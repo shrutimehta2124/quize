@@ -108,6 +108,7 @@ button:hover {
 /* Question Section */
 #question-container {
     margin-bottom: 25px;
+    
 }
 
 #question {
@@ -142,6 +143,7 @@ button:hover {
 }
 
 /* Sidebar */
+/* Sidebar - Initially hidden */
 #sidebar {
     width: 220px;
     position: fixed;
@@ -152,6 +154,12 @@ button:hover {
     padding: 15px;
     overflow-y: auto;
     color: white;
+    display: none; /* Sidebar is hidden initially */
+}
+
+/* Show the sidebar when it's active */
+#sidebar.show {
+    display: block; /* Make the sidebar visible */
 }
 
 #sidebar ul {
@@ -201,7 +209,6 @@ button:hover {
     background-color: black;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .welcome-container h1 {

@@ -173,8 +173,16 @@ function startQuiz() {
         return;
     }
 
+    // Hide the welcome container and show the quiz container
     document.getElementById("welcome-container").style.display = "none";
     document.getElementById("quiz-container").style.display = "block";
+    document.getElementById("quiz-container").classList.add('show'); // Show quiz container
+
+    // Show the sidebar when quiz starts
+    document.getElementById('sidebar').classList.add('show');
+
+    document.getElementById("sidebar").style.display = "block"; // Show sidebar
+
     currentQuestionIndex = 0;
     score = 0;
     skipped = 0;
@@ -187,6 +195,8 @@ function startQuiz() {
     setupSidebar();
     loadQuestion();
 }
+
+
 // Load Question
 function loadQuestion() {
     document.getElementById("current-question-number").textContent = currentQuestionIndex + 1;
