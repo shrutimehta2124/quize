@@ -120,6 +120,8 @@ function shuffleArray(array) {
 
 // Function to start the camera
 function startCamera() {
+    document.getElementById("videoElement").style.display = "block";
+
     navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((userStream) => {
