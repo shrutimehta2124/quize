@@ -375,12 +375,19 @@ document.getElementById("view-score-button").onclick = function () {
 function showSubmitPage() {
     stopCamera(); // Stop the camera when the quiz is submitted
 
-    document.getElementById("video-container").style.display = "none"; // Hide camera
+    // Hide camera and quiz containers
+    document.getElementById("video-container").style.display = "none";
     document.getElementById("quiz-container").style.display = "none";
+
+    // Hide the sidebar when the quiz is submitted
+    document.getElementById('sidebar').style.display = "none"; // Hides the sidebar
+
+    // Show the submit container (score page)
     document.getElementById("submit-container").style.display = "block";
     
     document.querySelector("#start").style.display = "none"; // Ensure start camera button stays hidden
 }
+
 // Show Responses
 document.getElementById("view-response-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
