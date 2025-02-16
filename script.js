@@ -243,9 +243,9 @@ function startTimer() {
 
             // Change the color of the timer when time reaches 4 seconds
             if (timeRemaining <= 4) {
-                document.getElementById("timer-seconds").style.color = "red"; // Red color for warning
+                document.getElementById("timer").style.color = "red"; // Red color for warning
             } else {
-                document.getElementById("timer-seconds").style.color = "green"; // Green color for normal time
+                document.getElementById("timer").style.color = "green"; // Green color for normal time
             }
         } else {
             clearInterval(timer);
