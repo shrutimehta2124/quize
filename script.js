@@ -240,6 +240,13 @@ function startTimer() {
             timeRemaining--;
             questionTimers[currentQuestionIndex] = timeRemaining;
             document.getElementById("timer-seconds").textContent = timeRemaining;
+
+            // Change the color of the timer when time reaches 4 seconds
+            if (timeRemaining <= 4) {
+                document.getElementById("timer-seconds").style.color = "red"; // Red color for warning
+            } else {
+                document.getElementById("timer-seconds").style.color = "green"; // Green color for normal time
+            }
         } else {
             clearInterval(timer);
             handleSkip();
@@ -247,6 +254,7 @@ function startTimer() {
         }
     }, 1000);
 }
+
 
 // Handle Answer Selection
 function handleAnswer(selectedOption) {

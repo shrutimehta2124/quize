@@ -17,6 +17,7 @@ body {
     align-items: center;
     transition: all 0.5s ease;
     flex-direction: column;
+    height: 100%;
 }
 
 /* Welcome Page */
@@ -44,17 +45,18 @@ body {
 
 .welcome-container p {
     font-size: 1rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: #555;
     line-height: 1.5;
+    max-width: 90%; /* Added max width to keep text from stretching */
 }
 
 /* Button container */
 .button-container {
-    display: flex; /* Aligns buttons in a row */
-    gap: 10px; /* Adds space between buttons */
-    justify-content: center; /* Centers the buttons horizontally */
-    margin-top: 20px; /* Adds some space above the buttons */
+    display: flex;
+    gap: 15px; /* Slightly larger gap for button spacing */
+    justify-content: center;
+    margin-top: 20px;
 }
 
 /* Buttons */
@@ -124,11 +126,11 @@ button:hover {
 #answer-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px; /* Added more space between the options */
 }
 
 #answer-options button {
-    padding: 12px;
+    padding: 14px;
     font-size: 1rem;
     background-color: #f8f9fa;
     color: #333;
@@ -144,7 +146,6 @@ button:hover {
 }
 
 /* Sidebar */
-/* Sidebar - Initially hidden */
 #sidebar {
     width: 220px;
     position: fixed;
@@ -155,12 +156,11 @@ button:hover {
     padding: 15px;
     overflow-y: auto;
     color: white;
-    display: none; /* Sidebar is hidden initially */
+    display: none;
 }
 
-/* Show the sidebar when it's active */
 #sidebar.show {
-    display: block; /* Make the sidebar visible */
+    display: block;
 }
 
 #sidebar ul {
@@ -196,16 +196,16 @@ button:hover {
 
 /* Camera Feed */
 #videoElement {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 10px;
     border: 3px solid #1abc9c;
     background-color: black;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  /*  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);*/
     position: fixed;
-    bottom: 20px; /* Position at the bottom */
-    right: 20px; /* Adjust the position from the right side */
-    display: none;  /*Initially hidden */
+    bottom: 20px;
+    right: 20px;
+    display: none;
 }
 
 /* Submit Page */
@@ -226,14 +226,14 @@ button:hover {
 #submit-container h2 {
     font-size: 3.5rem;
     margin-bottom: 20px;
-    color: #1abc9c; /* Teal color */
+    color: #1abc9c;
     font-weight: 700;
 }
 
 #submit-container button {
     padding: 15px 30px;
     font-size: 1.3rem;
-    background-color: #e74c3c; /* Coral color */
+    background-color: #e74c3c;
     color: white;
     border: none;
     border-radius: 8px;
@@ -244,7 +244,7 @@ button:hover {
 }
 
 #submit-container button:hover {
-    background-color: #c0392b; /* Darker coral */
+    background-color: #c0392b;
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
@@ -267,7 +267,7 @@ button:hover {
 #score-container h2 {
     font-size: 3.5rem;
     margin-bottom: 20px;
-    color: #1abc9c; /* Teal color */
+    color: #1abc9c;
     font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -297,7 +297,7 @@ button:hover {
 #response-container h2 {
     font-size: 2rem;
     margin-bottom: 10px;
-    color: #1abc9c; /* Teal color */
+    color: #1abc9c;
     font-weight: 700;
 }
 
@@ -332,7 +332,7 @@ button:hover {
 button {
     padding: 15px 30px;
     font-size: 1.3rem;
-    background-color: #1abc9c; /* Teal color */
+    background-color: #1abc9c;
     color: white;
     border: none;
     border-radius: 8px;
@@ -343,35 +343,7 @@ button {
 }
 
 button:hover {
-    background-color: #16a085; /* Darker teal */
+    background-color: #16a085;
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-/* Responsive Design */
-@media (max-width: 768px) {
-    .welcome-container h1 {
-        font-size: 2rem;
-    }
-
-    .welcome-container p {
-        font-size: 0.9rem;
-    }
-
-    .quiz-container {
-        padding: 20px;
-    }
-
-    #question-container {
-        flex-direction: column;
-    }
-
-    #answer-options button {
-        font-size: 0.9rem;
-    }
-
-    /* Responsive camera feed */
-    #camera-feed {
-        width: 120px;
-        height: 120px;
-    }
 }
