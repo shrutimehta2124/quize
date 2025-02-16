@@ -48,6 +48,7 @@ body {
     color: #555;
     line-height: 1.5;
 }
+
 /* Button container */
 .button-container {
     display: flex; /* Aligns buttons in a row */
@@ -55,6 +56,7 @@ body {
     justify-content: center; /* Centers the buttons horizontally */
     margin-top: 20px; /* Adds some space above the buttons */
 }
+
 /* Buttons */
 button {
     padding: 12px 24px;
@@ -108,7 +110,6 @@ button:hover {
 /* Question Section */
 #question-container {
     margin-bottom: 25px;
-    
 }
 
 #question {
@@ -180,10 +181,6 @@ button:hover {
     background-color: #1abc9c;
 }
 
-#sidebar ul li:hover {
-    background-color: #1abc9c;
-}
-
 /* Question Status */
 .current-question {
     background-color: orange !important;
@@ -197,18 +194,20 @@ button:hover {
     background-color: red !important;
 }
 
-
 /* Camera Feed */
-#camera-feed {
+#videoElement {
     width: 150px;
-    display: flex;
-    flex-direction: column;
     height: 150px;
     border-radius: 10px;
     border: 3px solid #1abc9c;
     background-color: black;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    bottom: 20px; /* Position at the bottom */
+    right: 20px; /* Adjust the position from the right side */
+    /*display: none;  Initially hidden */
 }
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .welcome-container h1 {
@@ -229,5 +228,11 @@ button:hover {
 
     #answer-options button {
         font-size: 0.9rem;
+    }
+
+    /* Responsive camera feed */
+    #camera-feed {
+        width: 120px;
+        height: 120px;
     }
 }
