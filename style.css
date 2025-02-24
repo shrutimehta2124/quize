@@ -279,7 +279,19 @@ button:hover {
     line-height: 1.6;
     font-weight: 500;
 }
-
+#attempted
+{font-size: 1.4rem;
+    margin-bottom: 40px;
+    color: #666;
+    line-height: 1.6;
+    font-weight: 500;}
+#skipped{
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+    color: #666;
+    line-height: 1.6;
+    font-weight: 500;   
+}
 /* Response Page */
 #response-container {
     text-align: center;
@@ -343,6 +355,31 @@ button {
 }
 
 button:hover {
+    background-color: #16a085;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+#next-button 
+{   
+    padding: 15px 30px;
+    font-size: 1.3rem;
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3sease;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+/* Disabled button - light background */
+#next-button:disabled {
+    background-color: #b2dfdb;
+    cursor: not-allowed;
+}
+
+/* Button Hover Effect */
+#next-button:hover {
     background-color: #16a085;
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);

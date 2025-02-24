@@ -101,9 +101,12 @@ const questions = [
     }
 ];
 
+let skippedQuestions = 0;
 let currentQuestionIndex = 0;
 let score = 0;
 let skipped = 0;
+let totalQuestions = 20; // Adjust according to your quiz length
+let attemptedQuestions = 0;
 let timer;
 let timeRemaining = 10;
 let userResponses = [];
@@ -197,41 +200,7 @@ function startQuiz() {
     setupSidebar();
     loadQuestion();
 }
-
-
-// Load Question
-/*
-function loadQuestion() {
-    document.getElementById("current-question-number").textContent = currentQuestionIndex + 1;
-    document.getElementById("total-questions-number").textContent = questions.length;
-
-    if (questionTimers[currentQuestionIndex] === undefined) {
-        questionTimers[currentQuestionIndex] = 10; // Default 10 seconds if first attempt
-    }
-    timeRemaining = questionTimers[currentQuestionIndex];
-    document.getElementById("timer-seconds").textContent = timeRemaining;
-
-    startTimer();
-
-    const currentQuestion = questions[currentQuestionIndex];
-    document.getElementById("question").textContent = currentQuestion.question;
-
-    const answerOptions = document.getElementById("answer-options");
-    answerOptions.innerHTML = '';
-
-    currentQuestion.options.forEach(option => {
-        const button = document.createElement("button");
-        button.textContent = option;
-        button.onclick = () => handleAnswer(option);
-        answerOptions.appendChild(button);
-    });
-
-    document.getElementById("next-button").style.display = "none";
-    document.getElementById("next-button").disabled = true;
-    document.getElementById("submit-button").style.display = "none";
-
-    updateSidebar();
-}*/
+//load question 
 function loadQuestion() {
     // Ensure we are working with the correct currentQuestionIndex
     if (currentQuestionIndex < questions.length) {
@@ -259,37 +228,17 @@ function loadQuestion() {
             answerOptions.appendChild(button);
         });
 
+        // Reset and disable Next button at the start of each question
+        document.getElementById("next-button").disabled = true;
+        document.getElementById("next-button").style.backgroundColor = "#dcdcdc"; // Disabled style
+
         // Display Skip and hide other buttons
         document.getElementById("skipped-button").style.display = "inline-block"; // Show skip button
-        document.getElementById("next-button").style.display = "none"; // Hide next button until an answer is selected or question skipped
+        document.getElementById("next-button").style.display = "inline-block"; // Show next button
         document.getElementById("submit-button").style.display = "none"; // Hide submit button
         updateSidebar();
     }
 }
-
-// Start Timer
-/*
-function startTimer() {
-    clearInterval(timer);
-    timer = setInterval(() => {
-        if (timeRemaining > 0) {
-            timeRemaining--;
-            questionTimers[currentQuestionIndex] = timeRemaining;
-            document.getElementById("timer-seconds").textContent = timeRemaining;
-
-            // Change the color of the timer when time reaches 4 seconds
-            if (timeRemaining <= 4) {
-                document.getElementById("timer").style.color = "red"; // Red color for warning
-            } else {
-                document.getElementById("timer").style.color = "green"; // Green color for normal time
-            }
-        } else {
-            clearInterval(timer);
-            handleSkip();
-            moveToNextQuestion();
-        }
-    }, 1000);
-}*/
 // Start Timer
 function startTimer() {
     clearInterval(timer);
@@ -316,13 +265,12 @@ function startTimer() {
 // Handle Answer Selection
 function handleAnswer(selectedOption) {
     if (timeRemaining <= 0) {
-       /* alert("Time is up! You cannot change the answer.");*/
-       const notification = document.getElementById("notification");
-       notification.textContent = "Time's up! You can't access or answer this question anymore.";
-       notification.style.display = "block";
-       setTimeout(() => {
-           notification.style.display = "none";
-       }, 3000);
+        const notification = document.getElementById("notification");
+        notification.textContent = "Time's up! You can't access or answer this question anymore.";
+        notification.style.display = "block";
+        setTimeout(() => {
+            notification.style.display = "none";
+        }, 3000);
         return;
     }
 
@@ -334,8 +282,9 @@ function handleAnswer(selectedOption) {
     const selectedButton = Array.from(options).find(option => option.textContent === selectedOption);
     selectedButton.style.backgroundColor = '#708090';
 
-    document.getElementById("next-button").style.display = "inline-block";
+    // Enable the Next Button
     document.getElementById("next-button").disabled = false;
+    document.getElementById("next-button").style.backgroundColor = "#1abc9c"; // Normal background color when enabled
 
     const currentQuestion = questions[currentQuestionIndex];
     const correctAnswer = currentQuestion.answer; // Full answer (e.g. "B) Hyper Text Markup Language")
@@ -359,92 +308,32 @@ function handleAnswer(selectedOption) {
 
     updateSidebar();
 }
-
-/*
-function handleAnswer(selectedOption) {
-    if (timeRemaining <= 0) {
-        alert("Time is up! You cannot change the answer.");
-        return;
-    }
-
-    clearInterval(timer);
-
-    const options = document.querySelectorAll('#answer-options button');
-    options.forEach(option => option.style.backgroundColor = '');
-
-    const selectedButton = Array.from(options).find(option => option.textContent === selectedOption);
-    selectedButton.style.backgroundColor = '#708090';
-
-    document.getElementById("next-button").style.display = "inline-block";
-    document.getElementById("next-button").disabled = false;
-
-    const correctAnswer = questions[currentQuestionIndex].answer;
-    const isCorrect = selectedOption === correctAnswer;
-
-    userResponses[currentQuestionIndex] = {
-        question: questions[currentQuestionIndex].question,
-        selected: selectedOption,
-        correct: correctAnswer,
-        status: isCorrect ? "correct" : "wrong"
-    };
-
-    if (isCorrect) {
-        score++;
-    }
-
-    updateSidebar();
-}
-*/
-// Handle Skip
-/*
-function handleSkip() {
-    skipped++;
-
-    userResponses[currentQuestionIndex] = {
-        question: questions[currentQuestionIndex].question,
-        selected: "Skipped",
-        correct: questions[currentQuestionIndex].answer,
-        status: "skipped"
-    };
-
-    updateSidebar();
-}*/
-/*function handleSkip() {
-    skipped++;
-
-    // Record the skipped question
-    userResponses[currentQuestionIndex] = {
-        question: questions[currentQuestionIndex].question,
-        selected: "Skipped",
-        correct: questions[currentQuestionIndex].answer,
-        status: "skipped"
-    };
-
-    // Update sidebar
-    updateSidebar();
-
-    // Move to the next question after skipping
-    moveToNextQuestion();
-}*/
 document.getElementById("skipped-button").addEventListener("click", function() {
     handleSkip();  // Call handleSkip when Skip button is clicked
     moveToNextQuestion();  // Move to the next question after skipping
 });
 // Handle Skip
 function handleSkip() {
-    skipped++;  // Increment skipped count
-
-    // Record the skipped question
+    skipped++;  // Increment skipped count only
     userResponses[currentQuestionIndex] = {
         question: questions[currentQuestionIndex].question,
         selected: "Skipped",  // Mark as skipped
-        correct: questions[currentQuestionIndex].answer,  // Store the correct answer for reference
+        correct: questions[currentQuestionIndex].answer,  // Correct answer for reference
         status: "skipped"  // Set status as skipped
     };
+
+    // If it's the last question, show the Submit Quiz button
+    if (currentQuestionIndex === questions.length - 1) {
+        document.getElementById("next-button").textContent = 'Submit Quiz';
+        document.getElementById("next-button").disabled = false; // Enable the submit button
+    }
 
     // Update the sidebar with skipped question status
     updateSidebar();
 }
+
+
+
 // Skip Button Click Event
 document.getElementById("skipped-button").addEventListener("click", function() {
     if (timeRemaining > 0) {
@@ -453,39 +342,23 @@ document.getElementById("skipped-button").addEventListener("click", function() {
         alert("You cannot skip after time runs out.");
     }
 });
-
-
-// Move to Next Question
-/*
-function moveToNextQuestion() {
-    currentQuestionIndex++;
-
-    if (currentQuestionIndex < questions.length) {
-        loadQuestion();
-    } else {
-        document.getElementById("next-button").textContent = 'Submit Quiz';
-    }
-}*/
-// Move to Next Question after Skip or Answer
-/*
-function moveToNextQuestion() {
-    currentQuestionIndex++;
-
-    if (currentQuestionIndex < questions.length) {
-        loadQuestion(); // Load next question
-    } else {
-        document.getElementById("next-button").textContent = 'Submit Quiz';
-    }
-}*/
 function moveToNextQuestion() {
     currentQuestionIndex++;  // Move to next question
     if (currentQuestionIndex < questions.length) {
         loadQuestion();  // Load next question
     } else {
-        document.getElementById("next-button").textContent = 'Submit Quiz'; // End of quiz
-        // Submit the quiz when all questions are answered/skipped
+        // If it's the last question, show the Submit Quiz button
+        document.getElementById("next-button").textContent = 'Submit Quiz'; // Change button text to 'Submit Quiz'
+        
+        // Enable the Submit Quiz button if it's the last question
+        document.getElementById("next-button").disabled = false;
+        
+        // Hide the Skip button when it's the last question
+        document.getElementById("skipped-button").style.display = "none";
     }
 }
+
+
 // Submit Quiz
 document.getElementById("next-button").onclick = function () {
     if (currentQuestionIndex === questions.length) {
@@ -548,15 +421,45 @@ document.getElementById("view-score-button").onclick = function () {
     document.getElementById("submit-container").style.display = "none";
     document.getElementById("score-container").style.display = "block";
 
-    const totalQuestions = questions.length;
+    /*const totalQuestions = questions.length;
     const attemptedQuestions = totalQuestions - skipped;
 
     document.getElementById("score").innerHTML = `
         <p>Your Score: ${score} / ${totalQuestions}</p>
         <p>Questions Attempted: ${attemptedQuestions}</p>
         <p>Questions Skipped: ${skipped}</p>
-    `;
+    `;*/
 };
+
+function submitQuiz() {
+    let score = 0;
+    let attempted = 0;
+    let skipped = 0;
+
+    // Assuming 'questions' is an array of question objects, and 'userResponses' is an array of user's answers/status
+    for (let i = 0; i < questions.length; i++) {
+        const userResponse = userResponses[i];
+
+        // Check if the user skipped the question
+        if (userResponse.status === 'skipped') {
+            skipped++;
+        }
+        // Check if the user answered the question (correct or incorrect)
+        else if (userResponse.selected !== undefined && userResponse.selected !== "Skipped") {
+            attempted++;
+            // If the answer is correct, increase the score
+            if (userResponse.selected === questions[i].answer) {
+                score++;
+            }
+        }
+    }
+
+    // Display the results
+    document.getElementById("score").innerText = `Your Score: ${score} / ${questions.length}`;
+    document.getElementById("attempted").innerText = `Questions Attempted: ${attempted}`;
+    document.getElementById("skipped").innerText = `Questions Skipped: ${skipped}`;
+}
+
 
 function showSubmitPage() {
     stopCamera(); // Stop the camera when the quiz is submitted
@@ -570,7 +473,10 @@ function showSubmitPage() {
 
     // Show the submit container (score page)
     document.getElementById("submit-container").style.display = "block";
-    
+
+    // Calculate and display the score, attempted, and skipped questions
+    submitQuiz(); // Call the submitQuiz function to update the counts
+
     document.querySelector("#start").style.display = "none"; // Ensure start camera button stays hidden
 }
 
@@ -641,3 +547,9 @@ document.getElementById("restart-quiz-button").onclick = function () {
 
     document.querySelector("#start").style.display = "block"; // Show the start button again on restart
 };
+attemptedQuestions = totalQuestions - skippedQuestions;
+skippedQuestions = totalQuestions - attemptedQuestions;
+attemptedQuestions = Math.max(0, attemptedQuestions);
+skippedQuestions = Math.max(0, skippedQuestions);
+console.log("Attempted: ", attemptedQuestions);
+console.log("Skipped: ", skippedQuestions);
